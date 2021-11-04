@@ -112,7 +112,7 @@ then
 fi
 
 # Attempt to delete previous agent
-if [ -f /etc/nodequery/nq-agent.sh ]
+if [ -f /etc/nodequery/eyezi-agent.sh ]
 then
 	# Remove agent dir
 	rm -Rf /etc/nodequery
@@ -120,9 +120,9 @@ then
 	# Remove cron entry and user
 	if id -u nodequery >/dev/null 2>&1
 	then
-		(crontab -u nodequery -l | grep -v "/etc/nodequery/nq-agent.sh") | crontab -u nodequery - && userdel nodequery
+		(crontab -u nodequery -l | grep -v "/etc/nodequery/eyezi-agent.sh") | crontab -u nodequery - && userdel nodequery
 	else
-		(crontab -u root -l | grep -v "/etc/nodequery/nq-agent.sh") | crontab -u root -
+		(crontab -u root -l | grep -v "/etc/nodequery/eyezi-agent.sh") | crontab -u root -
 	fi
 fi
 
@@ -130,9 +130,9 @@ fi
 mkdir -p /etc/nodequery
 
 # Download agent
-echo -e "|   Downloading nq-agent.sh to /etc/nodequery\n|\n|   + $(wget -nv -o /dev/stdout -O /etc/nodequery/nq-agent.sh --no-check-certificate https://raw.github.com/nodequery/nq-agent/master/nq-agent.sh)"
+echo -e "|   Downloading eyezi-agent.sh to /etc/nodequery\n|\n|   + $(wget -nv -o /dev/stdout -O /etc/nodequery/eyezi-agent.sh --no-check-certificate https://raw.github.com/antare74/eyezi-agent/master/eyezi-agent.sh)"
 
-if [ -f /etc/nodequery/nq-agent.sh ]
+if [ -f /etc/nodequery/eyezi-agent.sh ]
 then
 	# Create auth file
 	echo "$1" > /etc/nodequery/nq-auth.log
@@ -147,16 +147,16 @@ then
 	chmod +s `type -p ping`
 
 	# Configure cron
-	crontab -u nodequery -l 2>/dev/null | { cat; echo "*/3 * * * * bash /etc/nodequery/nq-agent.sh > /etc/nodequery/nq-cron.log 2>&1"; } | crontab -u nodequery -
+	crontab -u nodequery -l 2>/dev/null | { cat; echo "*/3 * * * * bash /etc/nodequery/eyezi-agent.sh > /etc/nodequery/nq-cron.log 2>&1"; } | crontab -u nodequery -
 	
 	# Show success
 	echo -e "|\n|   Success: The NodeQuery agent has been installed\n|"
 	
 	# Attempt to delete installation script
-	if [ -f $0 ]
-	then
-		rm -f $0
-	fi
+	# if [ -f $0 ]
+	# then
+	# 	rm -f $0
+	# fi
 else
 	# Show error
 	echo -e "|\n|   Error: The NodeQuery agent could not be installed\n|"

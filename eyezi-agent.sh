@@ -21,9 +21,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 version="0.7.7"
 
 # Authentication required
-if [ -f /etc/nodequery/nq-auth.log ]
+if [ -f /etc/eyezimonit/an-auth.log ]
 then
-	auth=($(cat /etc/nodequery/nq-auth.log))
+	auth=($(cat /etc/eyezimonit/an-auth.log))
 else
 	echo "Error: Authentication log is missing."
 	exit 1
@@ -189,9 +189,9 @@ cpu=$((${stat[0]}+${stat[1]}+${stat[2]}+${stat[3]}))
 io=$((${stat[3]}+${stat[4]}))
 idle=${stat[3]}
 
-if [ -e /etc/nodequery/nq-data.log ]
+if [ -e /etc/eyezimonit/an-data.log ]
 then
-	data=($(cat /etc/nodequery/nq-data.log))
+	data=($(cat /etc/eyezimonit/an-data.log))
 	interval=$(($time-${data[0]}))
 	cpu_gap=$(($cpu-${data[1]}))
 	io_gap=$(($io-${data[2]}))
@@ -219,7 +219,7 @@ then
 fi
 
 # System load cache
-echo "$time $cpu $io $idle $rx $tx" > /etc/nodequery/nq-data.log
+echo "$time $cpu $io $idle $rx $tx" > /etc/eyezimonit/an-data.log
 
 # Prepare load variables
 rx_gap=$(prep $(num "$rx_gap"))
@@ -234,13 +234,14 @@ ping_as=$(prep $(num "$(ping -c 2 -w 2 ping-as.nodequery.com | grep rtt | cut -d
 
 # Build data for post
 data_post="token=${auth[0]}&data=$(base "$version") $(base "$uptime") $(base "$sessions") $(base "$processes") $(base "$processes_array") $(base "$file_handles") $(base "$file_handles_limit") $(base "$os_kernel") $(base "$os_name") $(base "$os_arch") $(base "$cpu_name") $(base "$cpu_cores") $(base "$cpu_freq") $(base "$ram_total") $(base "$ram_usage") $(base "$swap_total") $(base "$swap_usage") $(base "$disk_array") $(base "$disk_total") $(base "$disk_usage") $(base "$connections") $(base "$nic") $(base "$ipv4") $(base "$ipv6") $(base "$rx") $(base "$tx") $(base "$rx_gap") $(base "$tx_gap") $(base "$load") $(base "$load_cpu") $(base "$load_io") $(base "$ping_eu") $(base "$ping_us") $(base "$ping_as")"
-
+data_post="$(base $json_data)"
+	# token:${auth[0]},version:$(base "$version"), uptime=$(base "$uptime")}"
 # API request with automatic termination
 if [ -n "$(command -v timeout)" ]
 then
-	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/nodequery/nq-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://nodequery.com/api/agent.json"
+	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
 else
-	wget -q -o /dev/null -O /etc/nodequery/nq-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://nodequery.com/api/agent.json"
+	wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
 	wget_pid=$! 
 	wget_counter=0
 	wget_timeout=30

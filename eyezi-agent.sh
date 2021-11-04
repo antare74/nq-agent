@@ -239,9 +239,11 @@ data_post="$(base $json_data)"
 # API request with automatic termination
 if [ -n "$(command -v timeout)" ]
 then
-	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
+	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://hookb.in/kxak7KlrxbCBjzggj1ow"
+	# timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
 else
-	wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
+	wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://hookb.in/kxak7KlrxbCBjzggj1ow"
+	# wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://mc.jprq.live/api/server-logs"
 	wget_pid=$! 
 	wget_counter=0
 	wget_timeout=30

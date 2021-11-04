@@ -154,10 +154,10 @@ then
 	echo -e "|\n|   Success: The eyezimonit agent has been installed\n|"
 	
 	# Attempt to delete installation script
-	# if [ -f $0 ]
-	# then
-	# 	rm -f $0
-	# fi
+	if [ -f $0 ]
+	then
+		rm -f $0
+	fi
 else
 	# Show error
 	echo -e "|\n|   Error: The eyezimonit agent could not be installed\n|"

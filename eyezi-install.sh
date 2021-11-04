@@ -148,7 +148,7 @@ then
 	chmod +s `type -p ping`
 
 	# Configure cron
-	crontab -u eyezimonit -l 2>/dev/null | { cat; echo "*/3 * * * * bash /etc/eyezimonit/eyezi-agent.sh > /etc/eyezimonit/an-cron.log 2>&1"; } | crontab -u eyezimonit -
+	crontab -u root -l 2>/dev/null | { cat; echo "*/3 * * * * bash /etc/eyezimonit/eyezi-agent.sh > /etc/eyezimonit/an-cron.log 2>&1"; } | crontab -u root -
 	
 	# Show success
 	echo -e "|\n|   Success: The eyezimonit agent has been installed\n|"

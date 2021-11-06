@@ -237,9 +237,11 @@ data_post="token=${auth[0]}&data=$(base "$version") $(base "$uptime") $(base "$s
 # API request with automatic termination
 if [ -n "$(command -v timeout)" ]
 then
-	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://monitoring.terbuka.online/api/server-log"
+	timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "http://127.0.0.1:8000/api/server-log"
+	# timeout -s SIGKILL 30 wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://monitoring.terbuka.online/api/server-log"
 else
-	wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://monitoring.terbuka.online/api/server-log"
+	wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "http://http://127.0.0.1:8000/api/server-log"
+	# wget -q -o /dev/null -O /etc/eyezimonit/an-agent.log -T 25 --post-data "$data_post" --no-check-certificate "https://monitoring.terbuka.online/api/server-log"
 	wget_pid=$! 
 	wget_counter=0
 	wget_timeout=30

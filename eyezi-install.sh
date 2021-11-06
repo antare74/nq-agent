@@ -130,7 +130,7 @@ fi
 mkdir -p /etc/eyezimonit
 
 # Download agent
-echo -e "|   Downloading eyezi-agent.sh to /etc/eyezimonit\n|\n|   + $(wget -nv -o /dev/stdout -O /etc/eyezimonit/eyezi-agent.sh --no-check-certificate https://raw.githubusercontent.com/antare74/nq-agent/master/eyezi-agent.sh)"
+echo -e "|   Downloading eyezi-agent.sh to /etc/eyezimonit\n|\n|   + $(wget -nv -o /dev/stdout -O /etc/eyezimonit/eyezi-agent.sh --no-check-certificate https://raw.githubusercontent.com/antare74/nq-agent/dev/eyezi-agent.sh)"
 # echo -e "|   Downloading eyezi-agent.sh to /etc/eyezimonit\n|\n|   + $(wget -nv -o /dev/stdout -O /etc/eyezimonit/eyezi-agent.sh --no-check-certificate https://raw.github.com/antare74/eyezi-agent/master/eyezi-agent.sh)"
 
 if [ -f /etc/eyezimonit/eyezi-agent.sh ]
